@@ -53,6 +53,8 @@ class SystemInfoConsumer(AsyncWebsocketConsumer):
         params = parse_qs(query_string)
         ip_address = params.get("ip", [""])[0]
 
+        # print(ip_address)
+
         # await self.save_data(data,ip_address)
         await self.channel_layer.group_send(
             ip_address,
