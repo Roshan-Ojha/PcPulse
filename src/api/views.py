@@ -44,7 +44,8 @@ class PCInfoAPI(APIView):
             data = [{
                 "username":info.username,
                 "hostname":info.hostname,
-                "ip":info.ip} for info in pcinfo_instance]
+                "ip":info.ip
+                } for info in pcinfo_instance]
             return Response({"success":True,"data":data})
         except Exception as e:
             return Response({"success":False, "message":str(e)})
@@ -132,7 +133,8 @@ class SystemInfoAPI(APIView):
                     "total":storage.total_storage,
                     "used":storage.used_storage,
                     "free":storage.free_storage,
-                    "time":storage.time
+                    "time":storage.time,
+                    "date":storage.date
                 }for storage in StorageTable.objects.filter(pc=pc_instance)]
             
             if resource == 'memory':
@@ -140,21 +142,24 @@ class SystemInfoAPI(APIView):
                     "total":memory.total_memory,
                     "used":memory.used_memory,
                     "free":memory.free_memory,
-                    "time":memory.time
+                    "time":memory.time,
+                    "date":memory.date
                 }for memory in MemoryTable.objects.filter(pc=pc_instance)]
 
             if resource == 'cpu':
                 data = [{
                     "uptime":cpu.uptime,
                     "usage":cpu.cpu_usage,
-                    "time":cpu.time
+                    "time":cpu.time,
+                    "date":cpu.date
                 }for cpu in CPUTable.objects.filter(pc=pc_instance)]
 
             if resource == "network":
                 data = [{
                     "upload":network.upload,
                     "download":network.download,
-                    "time":network.time
+                    "time":network.time,
+                    "date":network.date
                 }for network in NetworkTable.objects.filter(pc=pc_instance)]
 
             return Response({"success":True,"data":data})

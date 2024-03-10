@@ -60,6 +60,8 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True # For testing purposes; restrict it in production
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [

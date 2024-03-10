@@ -22,18 +22,25 @@ class SystemInfoConsumer(AsyncWebsocketConsumer):
         params = parse_qs(query_string)
         ip_address = params.get("ip", [""])[0]
 
+        client = self.scope['client']
+        ip = client[0]
+
+        print("This is client",ip)
+        print('--------------------------------------------------------------')
+
         if ip_address:
             await self.channel_layer.group_add(ip_address, self.channel_name)
-            await self.send(json.dumps({"ip":ip_address}))
+            # await self.send(json.dumps({"ip":ip_address}))
 
             # Notify that the user is online
-            # await self.channel_layer.group_send(
-            #     ip_address,
-            #     {
-            #         'type': 'user_online',
-            #         'user_id': ip_address,
-            #     }
-            # )
+
+            await self.channel_layer.group_send(
+                ip_address,
+                {
+                    'type': 'user_online',
+                    'data': json.dumps({"success":True,"user_id":ip_address}),
+                }
+            )
 
     async def disconnect(self, close_code):
         ip_address = self.scope.get('client_addr')
@@ -46,7 +53,7 @@ class SystemInfoConsumer(AsyncWebsocketConsumer):
         params = parse_qs(query_string)
         ip_address = params.get("ip", [""])[0]
 
-        await self.save_data(data,ip_address)
+        # await self.save_data(data,ip_address)
         await self.channel_layer.group_send(
             ip_address,
             {
@@ -57,6 +64,7 @@ class SystemInfoConsumer(AsyncWebsocketConsumer):
 
     async def SendSystem(self,event):
         data = event['data']
+        print(data)
         await self.send(text_data=data)
 
     # async def sendsysteminfo(self, event):
@@ -65,7 +73,7 @@ class SystemInfoConsumer(AsyncWebsocketConsumer):
     #     await self.send(text_data=data)
 
     async def user_online(self, event):
-        user_id = event['user_id']
+        user_id = event['data']
         print(f"User {user_id} is online.")
         await self.send(text_data=user_id)
 

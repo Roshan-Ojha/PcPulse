@@ -18,6 +18,7 @@ class StorageTable(models.Model):
     used_storage = models.CharField(max_length = 255)
     free_storage = models.CharField(max_length=255)
     time = models.TimeField()
+    date  = models.DateField(auto_now_add=True)
     def __str__(self):
         return self.pc.username
     
@@ -28,6 +29,7 @@ class MemoryTable(models.Model):
     used_memory = models.CharField(max_length = 255)
     free_memory = models.CharField(max_length=255)
     time = models.TimeField()
+    date  = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.pc.username
@@ -38,6 +40,7 @@ class CPUTable(models.Model):
     uptime = models.CharField(max_length=255)
     cpu_usage = models.CharField(max_length=255)
     time = models.TimeField()
+    date  = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.pc.username
@@ -47,6 +50,7 @@ class NetworkTable(models.Model):
     upload=models.CharField(max_length=255)
     download = models.CharField(max_length = 255)
     time = models.TimeField()
+    date  = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.pc.username
